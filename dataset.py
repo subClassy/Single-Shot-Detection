@@ -279,7 +279,7 @@ class COCO(torch.utils.data.Dataset):
             #note: please make sure x_min,y_min,x_max,y_max are normalized with respect to the width or height of the image.
             #For example, point (x=100, y=200) in a image with (width=1000, height=500) will be normalized to (x/width=0.1,y/height=0.4)
         
-        # visualize_pred(img_name, ann_confidence, ann_box, ann_confidence, ann_box, image, self.boxs_default)
+        visualize_pred(img_name, ann_confidence, ann_box, ann_confidence, ann_box, image, self.boxs_default, True)
         
         return image, ann_box, ann_confidence
 

@@ -1,12 +1,26 @@
 import numpy as np
 import cv2
-# from dataset import iou
 
 
 colors = [(255, 0, 0), (0, 255, 0), (0, 0, 255)]
 #use [blue green red] to represent different classes
 
-def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_box, image_, boxs_default):
+def iou(boxs_default, x_min,y_min,x_max,y_max):
+    #input:
+    #boxes -- [num_of_boxes, 8], a list of boxes stored as [box_1,box_2, ...], where box_1 = [x1_center, y1_center, width, height, x1_min, y1_min, x1_max, y1_max].
+    #x_min,y_min,x_max,y_max -- another box (box_r)
+    
+    #output:
+    #ious between the "boxes" and the "another box": [iou(box_1,box_r), iou(box_2,box_r), ...], shape = [num_of_boxes]
+    
+    inter = np.maximum(np.minimum(boxs_default[:,6],x_max)-np.maximum(boxs_default[:,4],x_min),0)*np.maximum(np.minimum(boxs_default[:,7],y_max)-np.maximum(boxs_default[:,5],y_min),0)
+    area_a = (boxs_default[:,6]-boxs_default[:,4])*(boxs_default[:,7]-boxs_default[:,5])
+    area_b = (x_max-x_min)*(y_max-y_min)
+    union = area_a + area_b - inter
+    return inter/np.maximum(union,1e-8)
+
+
+def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_box, image_, boxs_default, nms=False):
     #input:
     #windowname      -- the name of the window to display the images
     #pred_confidence -- the predicted class labels from SSD, [num_of_boxes, num_of_classes]
@@ -46,12 +60,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 #image2: draw ground truth "default" boxes on image2 (to show that you have assigned the object to the correct cell/cells)
                 
                 #you can use cv2.rectangle as follows:
-                tx, ty, tw, th = ann_box[i]
-                px, py, pw, ph = boxs_default[i, :4]
-                gx = (pw * tx + px) * w
-                gy = (ph * ty + py) * h
-                gw = (pw * np.exp(tw)) * w
-                gh = (ph * np.exp(th)) * h
+                gx, gy, gw, gh = recover_gt_bbox(ann_box, boxs_default, h, w, i)
 
                 start_point_1 = (int(gx - (gw / 2)), int(gy - (gh / 2))) #top left corner, x1<x2, y1<y2
                 end_point_1 = (int(gx + (gw / 2)), int(gy + (gh / 2))) #bottom right corner
@@ -63,19 +72,19 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 end_point_2 = (int(boxs_default[i, 6] * w), int(boxs_default[i, 7] * h)) #bottom right corner
                 cv2.rectangle(image2, start_point_2, end_point_2, color, thickness)
     
+    if nms:
+        picked_ids = non_maximum_suppression(pred_confidence, pred_box, boxs_default, class_num, h, w)
+    else:
+        picked_ids = range(len(pred_confidence))
+
     #pred
-    for i in range(len(pred_confidence)):
+    for i in picked_ids:
         for j in range(class_num):
             if pred_confidence[i,j]>0.5:
                 #TODO:
                 #image3: draw network-predicted bounding boxes on image3
                 #image4: draw network-predicted "default" boxes on image4 (to show which cell does your network think that contains an object)
-                tx, ty, tw, th = pred_box[i]
-                px, py, pw, ph = boxs_default[i, :4]
-                gx = (pw * tx + px) * w
-                gy = (ph * ty + py) * h
-                gw = (pw * np.exp(tw)) * w
-                gh = (ph * np.exp(th)) * h
+                gx, gy, gw, gh = recover_gt_bbox(pred_box, boxs_default, h, w, i)
 
                 start_point_1 = (int(gx - (gw / 2)), int(gy - (gh / 2))) #top left corner, x1<x2, y1<y2
                 end_point_1 = (int(gx + (gw / 2)), int(gy + (gh / 2))) #bottom right corner
@@ -101,8 +110,18 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
     #in that case, please save the image using cv2.imwrite and check the saved image for visualization.
 
 
+def recover_gt_bbox(box, boxs_default, h, w, i):
+    tx, ty, tw, th = box[i]
+    px, py, pw, ph = boxs_default[i, :4]
+    gx = (pw * tx + px) * w
+    gy = (ph * ty + py) * h
+    gw = (pw * np.exp(tw)) * w
+    gh = (ph * np.exp(th)) * h
 
-def non_maximum_suppression(confidence_, box_, boxs_default, overlap=0.5, threshold=0.5):
+    return gx, gy, gw, gh
+
+
+def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, overlap=0.5, threshold=0.5):
     #input:
     #confidence_  -- the predicted class labels from SSD, [num_of_boxes, num_of_classes]
     #box_         -- the predicted bounding boxes from SSD, [num_of_boxes, 4]
@@ -115,23 +134,43 @@ def non_maximum_suppression(confidence_, box_, boxs_default, overlap=0.5, thresh
     #if you wish to reuse the visualize_pred function above, you need to return a "suppressed" version of confidence [5,5, num_of_classes].
     #you can also directly return the final bounding boxes and classes, and write a new visualization function for that.
     
-    
-    #TODO: non maximum suppression
-
-    sort_ids = np.argsort(confidence_)
     pick = []
-    while len(sort_ids) > 0:
-        i = sort_ids[-1]
-        pick.append(i)
-        
-        if len(sort_ids) == 1:
-            break
+    #TODO: non maximum suppression
+    for i in range(num_classes):
+        sort_ids = np.argsort(confidence_[:, i])
+        while len(sort_ids) > 0:
+            id = sort_ids[-1]
+            
+            if confidence_[id, i] <= threshold:
+                break
+            else:
+                pick.append(id)
 
-        sort_ids = sort_ids[:-1]
-        box = box_[i].reshape(1, 4)
-        # ious = iou(box, box_[sort_ids]).reshape(-1)
+            sort_ids = sort_ids[:-1]
+            gx, gy, gw, gh = recover_gt_bbox(box_, boxs_default, h, w, id)
 
-        # sort_ids = np.delete(sort_ids, np. where(ious > threshold)[0])
+            gx_all = np.zeros(len(sort_ids))
+            gy_all = np.zeros(len(sort_ids))
+            gw_all = np.zeros(len(sort_ids))
+            gh_all = np.zeros(len(sort_ids))
+
+            for k, s_id in enumerate(sort_ids):
+                gx_all[k], gy_all[k], gw_all[k], gh_all[k] = recover_gt_bbox(box_, boxs_default, h, w, s_id)
+            
+            remaining_boxes = np.array([gx_all, 
+                                        gy_all, 
+                                        gw_all, 
+                                        gh_all, 
+                                        gx_all - (gw_all / 2), 
+                                        gy_all - (gh_all / 2), 
+                                        gx_all + (gw_all / 2), 
+                                        gy_all + (gh_all / 2)])
+            
+            remaining_boxes = remaining_boxes.T
+            
+            ious = iou(remaining_boxes, gx - (gw / 2), gy - (gh / 2), gx + (gw / 2), gy + (gh / 2))
+
+            sort_ids = np.delete(sort_ids, np.where(ious > threshold)[0])
 
     return pick
 
