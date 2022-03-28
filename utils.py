@@ -60,7 +60,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 #image2: draw ground truth "default" boxes on image2 (to show that you have assigned the object to the correct cell/cells)
                 
                 #you can use cv2.rectangle as follows:
-                gx, gy, gw, gh = recover_gt_bbox(ann_box, boxs_default, h, w, i)
+                gx, gy, gw, gh = recover_gt_bbox(ann_box, boxs_default, i, h, w)
 
                 start_point_1 = (int(gx - (gw / 2)), int(gy - (gh / 2))) #top left corner, x1<x2, y1<y2
                 end_point_1 = (int(gx + (gw / 2)), int(gy + (gh / 2))) #bottom right corner
@@ -84,7 +84,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 #TODO:
                 #image3: draw network-predicted bounding boxes on image3
                 #image4: draw network-predicted "default" boxes on image4 (to show which cell does your network think that contains an object)
-                gx, gy, gw, gh = recover_gt_bbox(pred_box, boxs_default, h, w, i)
+                gx, gy, gw, gh = recover_gt_bbox(pred_box, boxs_default, i, h, w)
 
                 start_point_1 = (int(gx - (gw / 2)), int(gy - (gh / 2))) #top left corner, x1<x2, y1<y2
                 end_point_1 = (int(gx + (gw / 2)), int(gy + (gh / 2))) #bottom right corner
@@ -110,7 +110,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
     #in that case, please save the image using cv2.imwrite and check the saved image for visualization.
 
 
-def recover_gt_bbox(box, boxs_default, h, w, i):
+def recover_gt_bbox(box, boxs_default, i, h=1, w=1):
     tx, ty, tw, th = box[i]
     px, py, pw, ph = boxs_default[i, :4]
     gx = (pw * tx + px) * w
@@ -147,7 +147,7 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, 
                 pick.append(id)
 
             sort_ids = sort_ids[:-1]
-            gx, gy, gw, gh = recover_gt_bbox(box_, boxs_default, h, w, id)
+            gx, gy, gw, gh = recover_gt_bbox(box_, boxs_default, id, h, w)
 
             gx_all = np.zeros(len(sort_ids))
             gy_all = np.zeros(len(sort_ids))
@@ -155,7 +155,7 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, 
             gh_all = np.zeros(len(sort_ids))
 
             for k, s_id in enumerate(sort_ids):
-                gx_all[k], gy_all[k], gw_all[k], gh_all[k] = recover_gt_bbox(box_, boxs_default, h, w, s_id)
+                gx_all[k], gy_all[k], gw_all[k], gh_all[k] = recover_gt_bbox(box_, boxs_default, s_id, h, w)
             
             remaining_boxes = np.array([gx_all, 
                                         gy_all, 

@@ -16,6 +16,7 @@ from torch.autograd import Variable
 import torch.nn.functional as F
 
 from dataset import *
+from metrics import update_precision_recall
 from model import *
 from utils import *
 
@@ -35,7 +36,9 @@ batch_size = 32
 
 
 boxs_default = default_box_generator([10,5,3,1], [0.2,0.4,0.6,0.8], [0.1,0.3,0.5,0.7])
-
+precision_ = 0
+recall_ = 0
+overlap_thres = 0.5
 
 #Create network
 network = SSD(class_num)
@@ -103,7 +106,8 @@ if not args.test:
             pred_box_ = pred_box.detach().cpu().numpy()
             
             #optional: implement a function to accumulate precision and recall to compute mAP or F1.
-            # update_precision_recall(pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default,precision_,recall_,thres)
+            # update_precision_recall(pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_, recall_, overlap_thres)
+            precision_, recall_ = update_precision_recall(ann_confidence_.numpy(), ann_box_.numpy(), ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_, recall_, overlap_thres)
         
         #visualize
         pred_confidence_ = pred_confidence[0].detach().cpu().numpy()
