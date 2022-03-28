@@ -85,7 +85,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
 
                 start_point_2 = (int(boxs_default[i, 4] * w), int(boxs_default[i, 5] * h)) #top left corner, x1<x2, y1<y2
                 end_point_2 = (int(boxs_default[i, 6] * w), int(boxs_default[i, 7] * h)) #bottom right corner
-                cv2.rectangle(image2, start_point_2, end_point_2, color, thickness)
+                cv2.rectangle(image4, start_point_2, end_point_2, color, thickness)
     
     #combine four images into one
     h,w,_ = image1.shape

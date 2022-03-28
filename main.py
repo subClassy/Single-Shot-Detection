@@ -65,7 +65,8 @@ if not args.test:
             images_, ann_box_, ann_confidence_ = data
             images = images_.cuda()
             ann_box = ann_box_.cuda()
-            ann_confidence = ann_confidence_.type(torch.LongTensor).cuda()
+            # ann_confidence = ann_confidence_.type(torch.LongTensor).cuda()
+            ann_confidence = ann_confidence_.cuda()
 
             optimizer.zero_grad()
             pred_confidence, pred_box = network(images)

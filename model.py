@@ -45,8 +45,11 @@ def SSD_loss(pred_confidence, pred_box, ann_confidence, ann_box):
 
     object_boxes = ann_confidence[:, 3] != 1
 
-    l_cls = F.cross_entropy(pred_confidence[object_boxes], torch.max(ann_confidence[object_boxes], 1)[1], reduction='mean') \
-        + 3 * F.cross_entropy(pred_confidence[~object_boxes], torch.max(ann_confidence[~object_boxes], 1)[1], reduction='mean')
+    # l_cls = F.cross_entropy(pred_confidence[object_boxes], torch.max(ann_confidence[object_boxes], 1)[1], reduction='mean') \
+    #     + 3 * F.cross_entropy(pred_confidence[~object_boxes], torch.max(ann_confidence[~object_boxes], 1)[1], reduction='mean')
+    
+    l_cls = F.binary_cross_entropy(pred_confidence[object_boxes], ann_confidence[object_boxes], reduction='mean') \
+        + 3 * F.binary_cross_entropy(pred_confidence[~object_boxes], ann_confidence[~object_boxes], reduction='mean')
     
     l_box = F.smooth_l1_loss(pred_box[object_boxes], ann_box[object_boxes])
     
