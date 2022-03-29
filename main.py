@@ -36,8 +36,6 @@ batch_size = 32
 
 
 boxs_default = default_box_generator([10,5,3,1], [0.2,0.4,0.6,0.8], [0.1,0.3,0.5,0.7])
-precision_ = 0
-recall_ = 0
 overlap_thres = 0.5
 
 #Create network
@@ -64,6 +62,11 @@ if not args.test:
 
         avg_loss = 0
         avg_count = 0
+        precision_train_ = 0
+        recall_train_ = 0
+        precision_test_ = 0
+        recall_test_ = 0
+        
         for i, data in enumerate(dataloader, 0):
             images_, ann_box_, ann_confidence_ = data
             images = images_.cuda()
@@ -76,12 +79,17 @@ if not args.test:
             loss_net = SSD_loss(pred_confidence, pred_box, ann_confidence, ann_box)
             loss_net.backward()
             optimizer.step()
+
+            pred_confidence_ = pred_confidence.detach().cpu().numpy()
+            pred_box_ = pred_box.detach().cpu().numpy()
+            precision_train_, recall_train_ = update_precision_recall(pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_train_, recall_train_, overlap_thres, 320)
             
             avg_loss += loss_net.data
             avg_count += 1
 
         print('[%d] time: %f train loss: %f' % (epoch, time.time()-start_time, avg_loss/avg_count))
-        
+        print('Precision: %f Recall: %f' % (precision_train_/avg_count, recall_train_/avg_count))
+        start_time = time.time()
         #visualize
         pred_confidence_ = pred_confidence[0].detach().cpu().numpy()
         pred_box_ = pred_box[0].detach().cpu().numpy()
@@ -93,7 +101,8 @@ if not args.test:
         
         # TODO: split the dataset into 90% training and 10% validation
         # use the training set to train and the validation set to evaluate
-        
+        avg_count = 0
+        avg_loss = 0
         for i, data in enumerate(dataloader_test, 0):
             images_, ann_box_, ann_confidence_ = data
             images = images_.cuda()
@@ -101,15 +110,20 @@ if not args.test:
             ann_confidence = ann_confidence_.cuda()
 
             pred_confidence, pred_box = network(images)
+            loss_net = SSD_loss(pred_confidence, pred_box, ann_confidence, ann_box)
             
+            avg_loss += loss_net.data
+            avg_count += 1
+
             pred_confidence_ = pred_confidence.detach().cpu().numpy()
             pred_box_ = pred_box.detach().cpu().numpy()
             
             #optional: implement a function to accumulate precision and recall to compute mAP or F1.
-            # update_precision_recall(pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_, recall_, overlap_thres)
-            precision_, recall_ = update_precision_recall(ann_confidence_.numpy(), ann_box_.numpy(), ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_, recall_, overlap_thres)
-        
+            precision_test_, recall_test_  = update_precision_recall(pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, precision_test_, recall_test_, overlap_thres, 320)
+            
         #visualize
+        print('[%d] validation loss: %f' % (epoch, avg_loss/avg_count))
+        print('Precision: %f Recall: %f' % (precision_test_/avg_count, recall_test_/avg_count))
         pred_confidence_ = pred_confidence[0].detach().cpu().numpy()
         pred_box_ = pred_box[0].detach().cpu().numpy()
         visualize_pred("val", pred_confidence_, pred_box_, ann_confidence_[0].numpy(), ann_box_[0].numpy(), images_[0].numpy(), boxs_default)
@@ -127,7 +141,7 @@ if not args.test:
 
 else:
     #TEST
-    dataset_test = COCO("data/test/images/", "data/test/annotations/", class_num, boxs_default, train = False, image_size=320)
+    dataset_test = COCO("data/test/images/", "data/train/annotations/", class_num, boxs_default, train = False, image_size=320)
     dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, shuffle=False, num_workers=0)
     network.load_state_dict(torch.load('network.pth'))
     network.eval()
@@ -148,7 +162,7 @@ else:
         #TODO: save predicted bounding boxes and classes to a txt file.
         #you will need to submit those files for grading this assignment
         
-        # visualize_pred("test", pred_confidence_, pred_box_, ann_confidence_[0].numpy(), ann_box_[0].numpy(), images_[0].numpy(), boxs_default)
+        visualize_pred("test", pred_confidence_, pred_box_, ann_confidence_[0].numpy(), ann_box_[0].numpy(), images_[0].numpy(), boxs_default, True)
         cv2.waitKey(1000)
 
 
