@@ -163,7 +163,9 @@ def crop_image(image, annotation_info):
     while True:
         mode = random.choice((
             None,
+            0.1,
             0.3,
+            0.5,
             0.7,
             0.9
         ))

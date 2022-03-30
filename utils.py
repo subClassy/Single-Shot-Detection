@@ -73,7 +73,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 cv2.rectangle(image2, start_point_2, end_point_2, color, thickness)
     
     if nms:
-        picked_ids = non_maximum_suppression(pred_confidence, pred_box, boxs_default, class_num, h, w)
+        picked_ids = non_maximum_suppression(pred_confidence, pred_box, boxs_default, class_num)
     else:
         picked_ids = range(len(pred_confidence))
 
@@ -121,7 +121,7 @@ def recover_gt_bbox(box, boxs_default, i, h=1, w=1):
     return gx, gy, gw, gh
 
 
-def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, overlap=0.5, threshold=0.5):
+def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, overlap=0.5, threshold=0.5):
     #input:
     #confidence_  -- the predicted class labels from SSD, [num_of_boxes, num_of_classes]
     #box_         -- the predicted bounding boxes from SSD, [num_of_boxes, 4]
@@ -147,7 +147,7 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, 
                 pick.append(id)
 
             sort_ids = sort_ids[:-1]
-            gx, gy, gw, gh = recover_gt_bbox(box_, boxs_default, id, h, w)
+            gx, gy, gw, gh = recover_gt_bbox(box_, boxs_default, id)
 
             gx_all = np.zeros(len(sort_ids))
             gy_all = np.zeros(len(sort_ids))
@@ -155,7 +155,7 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, 
             gh_all = np.zeros(len(sort_ids))
 
             for k, s_id in enumerate(sort_ids):
-                gx_all[k], gy_all[k], gw_all[k], gh_all[k] = recover_gt_bbox(box_, boxs_default, s_id, h, w)
+                gx_all[k], gy_all[k], gw_all[k], gh_all[k] = recover_gt_bbox(box_, boxs_default, s_id)
             
             remaining_boxes = np.array([gx_all, 
                                         gy_all, 
@@ -170,7 +170,7 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, h, w, 
             
             ious = iou(remaining_boxes, gx - (gw / 2), gy - (gh / 2), gx + (gw / 2), gy + (gh / 2))
 
-            sort_ids = np.delete(sort_ids, np.where(ious > threshold)[0])
+            sort_ids = np.delete(sort_ids, np.where(ious > overlap)[0])
 
     return pick
 

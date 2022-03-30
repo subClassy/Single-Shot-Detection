@@ -61,8 +61,7 @@ class down_sample_block(nn.Module):
         super(down_sample_block, self).__init__()
         
         blk = []
-        blk.append(nn.ConstantPad2d((0, 1, 0, 1), 0))
-        blk.append(nn.Conv2d(in_channels, out_channels, 3, 2))
+        blk.append(nn.Conv2d(in_channels, out_channels, 3, 2, padding=1))
         blk.append(nn.BatchNorm2d(out_channels))
         blk.append(nn.ReLU())
         
@@ -117,13 +116,12 @@ class SSD(nn.Module):
             down_sample_block(64, 128),
             down_sample_block(128, 256),
             down_sample_block(256, 512),
-            down_sample_block(512, 256)   
+            down_sample_block(512, 256, False)   
         )
 
         self.layer_1_1 = nn.Sequential(
             conv_block(256, 256, 1, 1, 0),
-            nn.ConstantPad2d((0, 1, 0, 1), 0),
-            conv_block(256, 256, 3, 2, 0),
+            conv_block(256, 256, 3, 2, 1),
         )
 
         self.layer_1_2 = conv_reshape_block(256, 16, 3, 1, 1)
