@@ -73,7 +73,7 @@ def visualize_pred(windowname, pred_confidence, pred_box, ann_confidence, ann_bo
                 cv2.rectangle(image2, start_point_2, end_point_2, color, thickness)
     
     if nms:
-        picked_ids = non_maximum_suppression(pred_confidence, pred_box, boxs_default, class_num)
+        picked_ids = non_maximum_suppression(pred_confidence, pred_box, boxs_default, class_num, 0.1, 0.5)
     else:
         picked_ids = range(len(pred_confidence))
 
