@@ -69,7 +69,7 @@ if not args.test:
         picked_ids = []
         
         for imgg in range(len(pred_confidence_)):
-            picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.5))
+            picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.8))
             out_list = []
             for s_id in picked_ids[-1]:
                 gx, gy, gw, gh = recover_gt_bbox(pred_box_[imgg, :, :], boxs_default, s_id)
@@ -127,7 +127,7 @@ else:
         picked_ids = []
         
         for imgg in range(len(pred_confidence_)):
-            picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.5))
+            picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.8))
             out_list = []
             for s_id in picked_ids[-1]:
                 gx, gy, gw, gh = recover_gt_bbox(pred_box_[imgg, :, :], boxs_default, s_id)
