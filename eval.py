@@ -48,7 +48,7 @@ network.eval()
 
 if not args.test:
     dataset = COCO("data/train/images/", "data/train/annotations/", class_num, boxs_default, train = False, image_size=320)
-    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=0)
+    dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
     
     tp = 0
     fp = 0
