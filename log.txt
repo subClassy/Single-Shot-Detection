@@ -1,0 +1,113 @@
+[0] time: 213.747900 train loss: 0.956504
+[0] validation loss: 0.875975
+saving net for epoch - 0
+[1] time: 101.860319 train loss: 0.761377
+[1] validation loss: 0.844332
+saving net for epoch - 1
+[2] time: 88.223227 train loss: 0.746420
+[2] validation loss: 0.823149
+saving net for epoch - 2
+[3] time: 88.747632 train loss: 0.733515
+[3] validation loss: 0.817633
+saving net for epoch - 3
+[4] time: 88.191274 train loss: 0.715872
+[4] validation loss: 0.779437
+saving net for epoch - 4
+[5] time: 88.063452 train loss: 0.707881
+[5] validation loss: 0.821107
+[6] time: 88.314817 train loss: 0.702527
+[6] validation loss: 0.808429
+[7] time: 87.530419 train loss: 0.699955
+[7] validation loss: 0.763520
+saving net for epoch - 7
+[8] time: 88.209869 train loss: 0.686391
+[8] validation loss: 0.764412
+[9] time: 88.522089 train loss: 0.692529
+[9] validation loss: 0.792087
+[10] time: 87.513372 train loss: 0.690124
+[10] validation loss: 0.860633
+[11] time: 87.881763 train loss: 0.666560
+[11] validation loss: 0.736660
+saving net for epoch - 11
+[12] time: 87.960497 train loss: 0.656677
+[12] validation loss: 0.753127
+[13] time: 88.577222 train loss: 0.654692
+[13] validation loss: 0.720302
+saving net for epoch - 13
+[14] time: 88.683771 train loss: 0.646490
+[14] validation loss: 0.730898
+[15] time: 87.950980 train loss: 0.648122
+[15] validation loss: 0.810102
+[16] time: 89.776135 train loss: 0.644604
+[16] validation loss: 0.721726
+[17] time: 88.712151 train loss: 0.635761
+[17] validation loss: 0.711785
+saving net for epoch - 17
+[18] time: 88.500146 train loss: 0.626316
+[18] validation loss: 0.733030
+[19] time: 87.983666 train loss: 0.630618
+[19] validation loss: 0.739321
+[20] time: 87.865681 train loss: 0.611769
+[20] validation loss: 0.727209
+[21] time: 88.700617 train loss: 0.602550
+[21] validation loss: 0.721987
+[22] time: 88.966192 train loss: 0.602846
+[22] validation loss: 0.717050
+[23] time: 88.063912 train loss: 0.603333
+[23] validation loss: 0.726535
+[24] time: 89.495934 train loss: 0.601821
+[24] validation loss: 0.715917
+[25] time: 87.549076 train loss: 0.590467
+[25] validation loss: 0.698007
+saving net for epoch - 25
+[26] time: 88.903778 train loss: 0.587741
+[26] validation loss: 0.707462
+[27] time: 87.178092 train loss: 0.586610
+[27] validation loss: 0.723099
+[28] time: 87.680016 train loss: 0.607425
+[28] validation loss: 0.723399
+[29] time: 87.057405 train loss: 0.583372
+[29] validation loss: 0.702458
+[30] time: 88.322482 train loss: 0.577290
+[30] validation loss: 0.721663
+[31] time: 87.687488 train loss: 0.572305
+[31] validation loss: 0.716303
+[32] time: 89.739883 train loss: 0.564718
+[32] validation loss: 0.714311
+[33] time: 90.427584 train loss: 0.558267
+[33] validation loss: 0.719418
+[34] time: 88.953620 train loss: 0.558443
+[34] validation loss: 0.717990
+[35] time: 91.174601 train loss: 0.563728
+[35] validation loss: 0.741210
+[36] time: 91.027643 train loss: 0.559676
+[36] validation loss: 0.733805
+[37] time: 90.666703 train loss: 0.553764
+[37] validation loss: 0.743213
+[38] time: 90.918390 train loss: 0.535074
+[38] validation loss: 0.724609
+[39] time: 90.058201 train loss: 0.563392
+[39] validation loss: 0.715339
+[40] time: 90.921122 train loss: 0.543714
+[40] validation loss: 0.708097
+[41] time: 89.742953 train loss: 0.537782
+[41] validation loss: 0.720718
+[42] time: 89.404713 train loss: 0.590299
+[42] validation loss: 0.755102
+[43] time: 89.598238 train loss: 0.544098
+[43] validation loss: 0.720849
+[44] time: 89.982671 train loss: 0.541269
+[44] validation loss: 0.682147
+saving net for epoch - 44
+[45] time: 89.825700 train loss: 0.548871
+[45] validation loss: 0.842896
+[46] time: 90.346380 train loss: 0.555057
+[46] validation loss: 0.731671
+[47] time: 90.104580 train loss: 0.532490
+[47] validation loss: 0.706133
+[48] time: 89.961634 train loss: 0.527376
+[48] validation loss: 0.717116
+[49] time: 90.912796 train loss: 0.533098
+[49] validation loss: 0.738823
+[50] time: 90.409035 train loss: 0.534900
+[50] validation loss: 0.728075
