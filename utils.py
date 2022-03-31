@@ -177,7 +177,11 @@ def non_maximum_suppression(confidence_, box_, boxs_default, num_classes, overla
 
 
 
-
+def write_to_file(filename, list):
+    with open(filename, 'w') as f:
+        for _list in list:
+            for _string in _list:
+                f.write(str(_string) + '\n')
 
 
 

@@ -55,7 +55,7 @@ if not args.test:
     fn = 0
     
     for i, data in enumerate(dataloader, 0):
-        images_, ann_box_, ann_confidence_ = data
+        images_, ann_box_, ann_confidence_, h, w, img_name = data
         images = images_.cuda()
         ann_box = ann_box_.cuda()
         ann_confidence = ann_confidence_.cuda()
@@ -69,7 +69,15 @@ if not args.test:
         
         for imgg in range(len(pred_confidence_)):
             picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.5))
-        
+            out_list = []
+            for s_id in picked_ids[-1]:
+                gx, gy, gw, gh = recover_gt_bbox(pred_box_[i, :, :], boxs_default, s_id)
+                sub_list = []
+                sub_list.append(np.argmax(pred_confidence_[imgg, s_id, :]))
+                sub_list.extend(((gx * w).cpu().numpy()[0], (gy * h).cpu().numpy()[0], (gw * w).cpu().numpy()[0], (gh * h).cpu().numpy()[0]))
+                out_list.append(sub_list)
+            print(out_list)
+
         tp, fp, fn = update_precision_recall(picked_ids, pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, overlap_thres, tp, fp, fn)
     
     try:

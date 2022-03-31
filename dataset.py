@@ -283,7 +283,7 @@ class COCO(torch.utils.data.Dataset):
         
         # visualize_pred(img_name, ann_confidence, ann_box, ann_confidence, ann_box, image, self.boxs_default, True)
         
-        return image, ann_box, ann_confidence
+        return image, ann_box, ann_confidence, h, w, self.img_names[index]
 
 if __name__ == '__main__':
     boxs_default = default_box_generator([10,5,3,1], [0.2,0.4,0.6,0.8], [0.1,0.3,0.5,0.7])
