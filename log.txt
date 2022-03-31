@@ -1,115 +1,117 @@
-[0] time: 84.622451 train loss: 0.963782
-[0] validation loss: 0.901610
+[0] time: 85.049379 train loss: 3.876743
+[0] validation loss: 3.892623
 saving net for epoch - 0
-[1] time: 87.638517 train loss: 0.762250
-[1] validation loss: 0.868948
+[1] time: 89.333589 train loss: 3.647270
+[1] validation loss: 3.825734
 saving net for epoch - 1
-[2] time: 86.974209 train loss: 0.744927
-[2] validation loss: 0.823848
+[2] time: 88.116351 train loss: 3.622242
+[2] validation loss: 3.735485
 saving net for epoch - 2
-[3] time: 87.837912 train loss: 0.729806
-[3] validation loss: 0.813866
+[3] time: 88.265964 train loss: 3.605147
+[3] validation loss: 3.728945
 saving net for epoch - 3
-[4] time: 89.168963 train loss: 0.723814
-[4] validation loss: 0.812682
+[4] time: 87.837950 train loss: 3.610761
+[4] validation loss: 3.710474
 saving net for epoch - 4
-[5] time: 87.526104 train loss: 0.702899
-[5] validation loss: 0.794871
+[5] time: 87.656701 train loss: 3.604683
+[5] validation loss: 3.681498
 saving net for epoch - 5
-[6] time: 87.708697 train loss: 0.691984
-[6] validation loss: 0.771044
-saving net for epoch - 6
-[7] time: 86.249441 train loss: 0.691911
-[7] validation loss: 0.775879
-[8] time: 86.746674 train loss: 0.683712
-[8] validation loss: 0.787899
-[9] time: 86.413718 train loss: 0.679998
-[9] validation loss: 0.748138
+[6] time: 89.205061 train loss: 3.587451
+[6] validation loss: 3.689347
+[7] time: 87.014369 train loss: 3.585527
+[7] validation loss: 3.704906
+[8] time: 89.122730 train loss: 3.580935
+[8] validation loss: 3.663738
+saving net for epoch - 8
+[9] time: 91.495902 train loss: 3.575048
+[9] validation loss: 3.651373
 saving net for epoch - 9
-[10] time: 88.710911 train loss: 0.668928
-[10] validation loss: 0.843482
-[11] time: 86.158885 train loss: 0.667050
-[11] validation loss: 0.757723
-[12] time: 87.127715 train loss: 0.650631
-[12] validation loss: 0.763672
-[13] time: 87.233684 train loss: 0.646885
-[13] validation loss: 0.752061
-[14] time: 86.489888 train loss: 0.636688
-[14] validation loss: 0.745162
-saving net for epoch - 14
-[15] time: 89.029647 train loss: 0.628849
-[15] validation loss: 0.751281
-[16] time: 89.146676 train loss: 0.627318
-[16] validation loss: 0.759887
-[17] time: 87.748398 train loss: 0.626938
-[17] validation loss: 0.796007
-[18] time: 86.626947 train loss: 0.621707
-[18] validation loss: 0.742281
-saving net for epoch - 18
-[19] time: 85.888391 train loss: 0.610753
-[19] validation loss: 0.826048
-[20] time: 85.717513 train loss: 0.612741
-[20] validation loss: 0.707703
-saving net for epoch - 20
-[21] time: 86.528983 train loss: 0.601122
-[21] validation loss: 0.716819
-[22] time: 86.225592 train loss: 0.602886
-[22] validation loss: 0.787537
-[23] time: 85.520749 train loss: 0.621897
-[23] validation loss: 0.722281
-[24] time: 86.350567 train loss: 0.595921
-[24] validation loss: 0.767125
-[25] time: 85.818419 train loss: 0.591145
-[25] validation loss: 0.721225
-[26] time: 86.566125 train loss: 0.586493
-[26] validation loss: 0.749716
-[27] time: 86.281070 train loss: 0.576054
-[27] validation loss: 0.725379
-[28] time: 86.637079 train loss: 0.578542
-[28] validation loss: 0.738394
-[29] time: 86.358759 train loss: 0.579301
-[29] validation loss: 0.704124
-saving net for epoch - 29
-[30] time: 86.554373 train loss: 0.576847
-[30] validation loss: 0.755202
-[31] time: 86.315474 train loss: 0.582103
-[31] validation loss: 0.759725
-[32] time: 87.348082 train loss: 0.583340
-[32] validation loss: 0.709906
-[33] time: 86.571975 train loss: 0.566093
-[33] validation loss: 0.737091
-[34] time: 87.396701 train loss: 0.555253
-[34] validation loss: 0.753665
-[35] time: 87.840355 train loss: 0.579886
-[35] validation loss: 0.730056
-[36] time: 87.316375 train loss: 0.548128
-[36] validation loss: 0.731605
-[37] time: 86.250054 train loss: 0.555189
-[37] validation loss: 0.742627
-[38] time: 87.030202 train loss: 0.541738
-[38] validation loss: 0.743025
-[39] time: 87.695513 train loss: 0.542145
-[39] validation loss: 0.730929
-[40] time: 85.888883 train loss: 0.543608
-[40] validation loss: 0.700924
-saving net for epoch - 40
-[41] time: 86.574424 train loss: 0.529438
-[41] validation loss: 0.764235
-[42] time: 86.115574 train loss: 0.532325
-[42] validation loss: 0.744677
-[43] time: 85.546123 train loss: 0.526938
-[43] validation loss: 0.838109
-[44] time: 86.044146 train loss: 0.522891
-[44] validation loss: 0.744432
-[45] time: 86.508891 train loss: 0.520350
-[45] validation loss: 0.766643
-[46] time: 85.756421 train loss: 0.523293
-[46] validation loss: 0.728645
-[47] time: 84.824811 train loss: 0.534149
-[47] validation loss: 0.726548
-[48] time: 86.307509 train loss: 0.519125
-[48] validation loss: 0.809796
-[49] time: 86.097756 train loss: 0.521757
-[49] validation loss: 0.724554
-[50] time: 86.481667 train loss: 0.509631
-[50] validation loss: 0.759948
+[10] time: 89.681503 train loss: 3.572642
+[10] validation loss: 3.659818
+[11] time: 88.911073 train loss: 3.562104
+[11] validation loss: 3.656138
+[12] time: 88.302416 train loss: 3.565847
+[12] validation loss: 3.623947
+saving net for epoch - 12
+[13] time: 90.382703 train loss: 3.559510
+[13] validation loss: 3.613888
+saving net for epoch - 13
+[14] time: 90.642045 train loss: 3.553036
+[14] validation loss: 3.650287
+[15] time: 88.821601 train loss: 3.557617
+[15] validation loss: 3.607667
+saving net for epoch - 15
+[16] time: 89.957683 train loss: 3.545838
+[16] validation loss: 3.616537
+[17] time: 88.469629 train loss: 3.559062
+[17] validation loss: 3.617844
+[18] time: 88.116135 train loss: 3.560464
+[18] validation loss: 3.629864
+[19] time: 89.349687 train loss: 3.545336
+[19] validation loss: 3.621006
+[20] time: 88.390607 train loss: 3.543734
+[20] validation loss: 3.621579
+[21] time: 87.971275 train loss: 3.549776
+[21] validation loss: 3.665012
+[22] time: 88.866639 train loss: 3.548156
+[22] validation loss: 3.614026
+[23] time: 87.937666 train loss: 3.538272
+[23] validation loss: 3.626381
+[24] time: 88.907274 train loss: 3.540202
+[24] validation loss: 3.598336
+saving net for epoch - 24
+[25] time: 90.528116 train loss: 3.539627
+[25] validation loss: 3.631418
+[26] time: 91.067957 train loss: 3.538391
+[26] validation loss: 3.601444
+[27] time: 89.885212 train loss: 3.538537
+[27] validation loss: 3.607000
+[28] time: 91.402958 train loss: 3.533352
+[28] validation loss: 3.654059
+[29] time: 89.629465 train loss: 3.520667
+[29] validation loss: 3.632278
+[30] time: 89.057149 train loss: 3.518369
+[30] validation loss: 3.591811
+saving net for epoch - 30
+[31] time: 88.402503 train loss: 3.527073
+[31] validation loss: 3.602616
+[32] time: 87.803240 train loss: 3.539234
+[32] validation loss: 3.598927
+[33] time: 89.352372 train loss: 3.525098
+[33] validation loss: 3.602668
+[34] time: 88.141367 train loss: 3.517720
+[34] validation loss: 3.585805
+saving net for epoch - 34
+[35] time: 88.103152 train loss: 3.518716
+[35] validation loss: 3.587456
+[36] time: 88.291941 train loss: 3.509472
+[36] validation loss: 3.591567
+[37] time: 87.611789 train loss: 3.515359
+[37] validation loss: 3.586430
+[38] time: 87.953774 train loss: 3.498545
+[38] validation loss: 3.588841
+[39] time: 88.745840 train loss: 3.520729
+[39] validation loss: 3.588587
+[40] time: 87.868423 train loss: 3.506224
+[40] validation loss: 3.586422
+[41] time: 87.790235 train loss: 3.505333
+[41] validation loss: 3.580000
+saving net for epoch - 41
+[42] time: 88.544395 train loss: 3.501282
+[42] validation loss: 3.598325
+[43] time: 88.691745 train loss: 3.488252
+[43] validation loss: 3.592082
+[44] time: 89.788497 train loss: 3.499242
+[44] validation loss: 3.599206
+[45] time: 88.414703 train loss: 3.492206
+[45] validation loss: 3.583077
+[46] time: 88.672398 train loss: 3.494175
+[46] validation loss: 3.577066
+saving net for epoch - 46
+[47] time: 88.954644 train loss: 3.490052
+[47] validation loss: 3.570866
+saving net for epoch - 47
+[48] time: 88.314100 train loss: 3.482074
+[48] validation loss: 3.570950
+[49] time: 88.195349 train loss: 3.486871
+[49] validation loss: 3.579253
