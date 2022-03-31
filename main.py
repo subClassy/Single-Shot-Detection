@@ -154,8 +154,8 @@ if not args.test:
 
 else:
     #TEST
-    dataset_test = COCO("data/test/images/", "data/test/annotations/", class_num, boxs_default, train = False, image_size=320)
-    dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, shuffle=False, num_workers=0)
+    dataset_test = COCO("data/test/images/", "data/train/annotations/", class_num, boxs_default, train = False, image_size=320)
+    dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, shuffle=True, num_workers=0)
     network.load_state_dict(torch.load('network.pth'))
     network.eval()
     
