@@ -223,11 +223,11 @@ class COCO(torch.utils.data.Dataset):
         
         #notice:
         #you can split the dataset into 90% training and 10% validation here, by slicing self.img_names with respect to self.train
-        train_test_split = int(0.9 * len(self.img_names))
-        if self.train:
-            self.img_names = self.img_names[:train_test_split]
-        else:
-            self.img_names = self.img_names[train_test_split:]
+        # train_test_split = int(0.9 * len(self.img_names))
+        # if self.train:
+        #     self.img_names = self.img_names[:train_test_split]
+        # else:
+        #     self.img_names = self.img_names[train_test_split:]
 
     def __len__(self):
         return len(self.img_names)
