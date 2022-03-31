@@ -181,7 +181,8 @@ def write_to_file(filename, list):
     with open(filename, 'w') as f:
         for _list in list:
             for _string in _list:
-                f.write(str(_string) + '\n')
+                f.write(str(_string) + " ")
+            f.write('\n')
 
 
 

@@ -49,7 +49,8 @@ network.eval()
 if not args.test:
     dataset = COCO("data/train/images/", "data/train/annotations/", class_num, boxs_default, train = False, image_size=320)
     dataloader = torch.utils.data.DataLoader(dataset, batch_size=batch_size, shuffle=False, num_workers=0)
-    
+    output = "predicted_boxes/train/"
+
     tp = 0
     fp = 0
     fn = 0
@@ -71,12 +72,15 @@ if not args.test:
             picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.5))
             out_list = []
             for s_id in picked_ids[-1]:
-                gx, gy, gw, gh = recover_gt_bbox(pred_box_[i, :, :], boxs_default, s_id)
+                gx, gy, gw, gh = recover_gt_bbox(pred_box_[imgg, :, :], boxs_default, s_id)
+                gx_min = gx - (gw / 2)
+                gy_min = gy - (gh / 2)
                 sub_list = []
                 sub_list.append(np.argmax(pred_confidence_[imgg, s_id, :]))
-                sub_list.extend(((gx * w).cpu().numpy()[0], (gy * h).cpu().numpy()[0], (gw * w).cpu().numpy()[0], (gh * h).cpu().numpy()[0]))
+                sub_list.extend(((gx_min * w).cpu().numpy()[0], (gy_min * h).cpu().numpy()[0], (gw * w).cpu().numpy()[0], (gh * h).cpu().numpy()[0]))
                 out_list.append(sub_list)
-            print(out_list)
+            
+            write_to_file(output + img_name[0][:-3]+ "txt", out_list)
 
         tp, fp, fn = update_precision_recall(picked_ids, pred_confidence_, pred_box_, ann_confidence_.numpy(), ann_box_.numpy(), boxs_default, overlap_thres, tp, fp, fn)
     
@@ -99,25 +103,42 @@ else:
     #TEST
     dataset_test = COCO("data/test/images/", "data/train/annotations/", class_num, boxs_default, train = False, image_size=320)
     dataloader_test = torch.utils.data.DataLoader(dataset_test, batch_size=1, shuffle=False, num_workers=0)
-    
+    output = "predicted_boxes/test/"
+
     for i, data in enumerate(dataloader_test, 0):
-        images_, ann_box_, ann_confidence_ = data
+        images_, ann_box_, ann_confidence_, h, w, img_name = data
+        # images_, ann_box_, ann_confidence_ = data
         images = images_.cuda()
         ann_box = ann_box_.cuda()
         ann_confidence = ann_confidence_.cuda()
 
         pred_confidence, pred_box = network(images)
 
-        pred_confidence_ = pred_confidence[0].detach().cpu().numpy()
-        pred_box_ = pred_box[0].detach().cpu().numpy()
+        pred_confidence_ = pred_confidence.detach().cpu().numpy()
+        pred_box_ = pred_box.detach().cpu().numpy()
         
         #pred_confidence_,pred_box_ = non_maximum_suppression(pred_confidence_,pred_box_,boxs_default)
         
         #TODO: save predicted bounding boxes and classes to a txt file.
         #you will need to submit those files for grading this assignment
         
-        visualize_pred("test", pred_confidence_, pred_box_, ann_confidence_[0].numpy(), ann_box_[0].numpy(), images_[0].numpy(), boxs_default, True)
-        cv2.waitKey(1000)
+        # visualize_pred("test", pred_confidence_, pred_box_, ann_confidence_[0].numpy(), ann_box_[0].numpy(), images_[0].numpy(), boxs_default, True)
+        # cv2.waitKey(1000)
+        picked_ids = []
+        
+        for imgg in range(len(pred_confidence_)):
+            picked_ids.append(non_maximum_suppression(pred_confidence_[imgg], pred_box_[imgg], boxs_default, 3, 0.1, 0.5))
+            out_list = []
+            for s_id in picked_ids[-1]:
+                gx, gy, gw, gh = recover_gt_bbox(pred_box_[imgg, :, :], boxs_default, s_id)
+                gx_min = gx - (gw / 2)
+                gy_min = gy - (gh / 2)
+                sub_list = []
+                sub_list.append(np.argmax(pred_confidence_[imgg, s_id, :]))
+                sub_list.extend(((gx_min * w).cpu().numpy()[0], (gy_min * h).cpu().numpy()[0], (gw * w).cpu().numpy()[0], (gh * h).cpu().numpy()[0]))
+                out_list.append(sub_list)
+            
+            write_to_file(output + img_name[0][:-3]+ "txt", out_list)
 
 
 
